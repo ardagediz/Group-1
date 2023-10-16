@@ -9,13 +9,13 @@ int main() {
     if (number == -1) {
         printf("Termination value entered.\n");
     } else {
-        
+
         if (number >= 0 && number <= 100) {
             printf("The number %d is within the range of 0 to 100.\n", number);
-            main();  // Recursive call to main
+             main();  
         } else {
             printf("The number %d is out of the range (0-100).\n", number);
-            main(); 
+             main();  
         }
     }
 

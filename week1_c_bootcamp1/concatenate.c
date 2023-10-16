@@ -15,11 +15,9 @@ int main() {
     }
 
     for (i = 0; i < 3; i++) {
-        result[i] = arr1[i];          // First three elements from arr1
-        result[i + 3] = arr2[i];      // Next three elements from arr2
-    }
+        result[i] = arr1[i];          
+        result[i + 3] = arr2[i];     
 
-    // Print the concatenated result
     printf("Concatenated array: ");
     for (i = 0; i < 6; i++) {
         printf("%d ", result[i]);
