@@ -11,11 +11,10 @@ float rad;
 
 int main()
 {
+printf("Enter your radius here: ");
+scanf("%f", &rad);
 
+printf("Your area is %f", sphere_area(rad, 3.14));
 
-
-
-
-
-    return 0;
+return 0;
 }

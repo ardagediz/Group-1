@@ -12,7 +12,7 @@ int main(){
 printf("Enter the radius of your circle here: ");
 scanf("%f", &rad);
 
-printf("Your area is %f", circle_area(3.14, rad));
+printf("Your area is %f\n", circle_area(3.14, rad));
 
 return 0;
 }
