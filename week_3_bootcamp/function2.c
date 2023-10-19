@@ -11,5 +11,5 @@ int main()
 {
     int y = 2;
     float z = sum(5, y);
-    printf("The sum of 5 and %d is %f", y, z);
+    printf("The sum of 5 and %d is %lf", y, z);
 }
