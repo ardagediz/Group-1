@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-int str_len(char string[])
+int string_length(char string[])
 {
     return strlen(string);
 }
