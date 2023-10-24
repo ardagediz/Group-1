@@ -25,7 +25,7 @@ void tokeniseRecord(const char *input, const char *delimiter,
 int main() {
     FILE *file = fopen("FitnessData_2023.csv", "r");
     if (file == NULL) {
-        printf("File could not be opened.\n");
+        perror("\n");
         return 1;
     }
 
@@ -34,7 +34,6 @@ int main() {
     FITNESS_DATA data[1000];
 
     while (fgets(line, sizeof(line), file)) {
-        // Remove newline character read by fgets
         line[strcspn(line, "\n")] = 0;
 
         char date[11], time[6], steps[5];
@@ -50,11 +49,11 @@ int main() {
     fclose(file);
 
     // Outputting the number of records
-    printf("Number of records in file: %d", record_count);
+    printf("Number of records in file: %d\n", record_count);
 
     // Outputting the first three records without extra spaces or newlines
     for (int i = 0; i < 3; i++) {
-        printf("\n%s/%s/%d", data[i].date, data[i].time, data[i].steps);
+        printf("\n%s/%s/%d\n", data[i].date, data[i].time, data[i].steps);
     }
 
     return 0;
