@@ -25,7 +25,7 @@ void tokeniseRecord(const char *input, const char *delimiter,
 int main() {
     FILE *file = fopen("FitnessData_2023.csv", "r");
     if (file == NULL) {
-        perror("\n");
+        perror("Failed\n");
         return 1;
     }
 
