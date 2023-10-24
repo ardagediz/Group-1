@@ -29,22 +29,31 @@ int main() {
         return 1;
     }
 
-    char line[100];
-    int record_count = 0;
-    FITNESS_DATA data[1000];
+    // Declare an array of char (string) to store each line from the file
+char line[100];
 
-    while (fgets(line, sizeof(line), file)) {
-        line[strcspn(line, "\n")] = 0;
+// Declare an integer variable to count the number of records read
+int record_count = 0;
 
-        char date[11], time[6], steps[5];
-        tokeniseRecord(line, ",", date, time, steps);
+// Declare an array of FITNESS_DATA structures to store the data
+FITNESS_DATA data[1000];
 
-        strcpy(data[record_count].date, date);
-        strcpy(data[record_count].time, time);
-        data[record_count].steps = atoi(steps);
+// Loop through each line in the file until the end of the file is reached
+while (fgets(line, sizeof(line), file)) {
+    // Remove the newline character at the end of each line
+    line[strcspn(line, "\n")] = 0;
+    // Declare variables to store date, time, and steps after tokenizing the line
+    char date[11], time[6], steps[5];
+    // Call a function to tokenize the line and populate date, time, and steps
+    tokeniseRecord(line, ",", date, time, steps);
+    // Copying the date, time and steps into the correct field of the current record in the 'data' array
+    strcpy(data[record_count].date, date);
+    strcpy(data[record_count].time, time);
+    data[record_count].steps = atoi(steps);
 
-        record_count++;
-    }
+    // Increment the record count
+    record_count++;
+}
 
     fclose(file);
 
