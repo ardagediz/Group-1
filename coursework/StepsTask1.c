@@ -54,11 +54,11 @@ while (fgets(line, sizeof(line), file)) {
 fclose(file);
 
 // Output the number of records read from the file
-printf("Number of records in file: %d", record_count);
+printf("Number of records in file: %d\n", record_count);
 
 // Output the first three records in the required format
 for (int i = 0; i < 3; i++) {
-    printf("\n%s/%s/%d", data[i].date, data[i].time, data[i].steps);
+    printf("%s/%s/%d\n", data[i].date, data[i].time, data[i].steps);
 }
 
 return 0;
