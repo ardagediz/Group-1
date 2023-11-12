@@ -39,9 +39,6 @@ FITNESS_DATA data[1000];
 
 // Read and tokenize each line in the file
 while (fgets(line, sizeof(line), file)) {
-    // Remove the newline character from the end of the line
-    line[strcspn(line, "\n")] = 0;
-        
     // Tokenize the line and populate the data array
     tokeniseRecord(line, ",", data[record_count].date, data[record_count].time, line);
     data[record_count].steps = atoi(line);
