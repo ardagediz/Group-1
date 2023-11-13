@@ -1,6 +1,8 @@
 #ifndef FITNESS_DATA_STRUCT_H
 #define FITNESS_DATA_STRUCT_H
 
+#define filename_length 100
+
 // Define the struct
 typedef struct {
     char date[11];
