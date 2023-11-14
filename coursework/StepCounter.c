@@ -19,9 +19,20 @@ void tokeniseRecord(const char *input, const char *delimiter,
 
 int main() {
     char choice;
-    char filename[filename_length] = "FitnessData_2023.csv";
-    FILE *file; // Declare file here for use in multiple cases
-
+    char filename[filename_length];
+    
+    printf("Please enter the name of the data file: ");
+    fgets(filename, filename_length, stdin);
+    filename[strcspn(filename, "\n")] = 0;  // Remove newline character
+    FILE *file = fopen(filename, "r");
+    if (!file) {
+        printf("Error: could not open file\n");
+        return 1;
+    } else {
+        printf("The file has been opened successfully");
+    }
+    
+    fclose(file);
     while (1) {
         printf("\nMenu:\n");
         printf("A: Specify the filename to be imported\n");
@@ -40,7 +51,7 @@ int main() {
 
         switch (choice) {
             case 'A':
-                printf("Please enter the name of the data file: ");
+                printf("Please specify the name of the file name to be imported: ");
                 fgets(filename, filename_length, stdin);
                 filename[strcspn(filename, "\n")] = 0;  // Remove newline character
                 file = fopen(filename, "r");
@@ -78,11 +89,11 @@ int main() {
                     return 1;
                 }
 
+                char line[filename_length];
                 FITNESS_DATA record, minRecord;
                 int minSteps = 1000000; // Initialize to a large number
                 int isFirstRecord = 1; // Flag to check if it's the first record
 
-                char line[filename_length];
                 while (fgets(line, filename_length, file) != NULL) {
                     tokeniseRecord(line, ",", record.date, record.time, line);
                     record.steps = atoi(line); // Convert steps to integer
@@ -92,20 +103,64 @@ int main() {
                     minRecord = record;
                     isFirstRecord = 0;
                 }
+
+                fclose(file);
+
+                if (!isFirstRecord) {
+                    printf("Fewest steps: %s %s\n", minRecord.date, minRecord.time);
+                } else {
+                    printf("No records found.\n");
+                }
+                    break;
+                }
+
+            case 'D': {
+                file = fopen(filename, "r");
+                if (!file) {
+                    printf("Error: File could not be opened successfully");
+                    return 1;
+                }
+
+                FITNESS_DATA record, maxRecord;
+                int maxSteps = 1;
+                int isFirstRecord = 1;
+
+                char line[filename_length];
+                while (fgets(line, filename_length, file) != NULL) {
+                    tokeniseRecord(line, ",", record.date, record.time, line);
+                    record.steps = atoi(line); // Convert steps to integer
+
+                if (isFirstRecord || record.steps > maxSteps) {
+                    maxSteps = record.steps;
+                    maxRecord = record;
+                    isFirstRecord = 0;
+                }
+
+                fclose(file);
+
+                if (!isFirstRecord) {
+                    printf("Largest Steps: %s %s\n", maxRecord.date, maxRecord.time);
+                } else {
+                    printf("No records found.\n");
+                }
+                break;
+                }
+            }
+            
+            case 'E': {
+                
+
+
+
+
+
+
+
+                break;
             }
 
-        fclose(file);
-
-        if (!isFirstRecord) {
-            printf("Fewest steps: %s %s\n", minRecord.date, minRecord.time);
-        } else {
-            printf("No records found.\n");
-        }
-        break;
         }
     }
-
 }
-
     return 0;
 }
