@@ -148,10 +148,40 @@ int main() {
             }
             
             case 'E': {
+                file = fopen(filename, "r");
+                if (!file) {
+                    printf("Error: File could not be opened successfully");
+                    return 1;
+                } 
+                 int totalSteps = 0, recordCount = 0;
+                 char filename[filename_length];
+                 FITNESS_DATA record;
+
+                 while (fgets(line, filename_length, file) != NULL) {
+                    tokeniseRecord(line, ",", record.date, record.time, line);
+                    record.steps = atoi(line); // Convert steps to integer
+
+                    totalSteps += record.steps;
+                    recordCount++;
+                }
+
+                fclose(file);
+
+                if (recordCount > 0) {
+                    double meanSteps = (double) totalSteps / recordCount;
+                    printf("The mean steps is %.2f\n", meanSteps);
+                } else {
+                    printf("No records were found to calculate the mean.");
+                }
+                break;
+            }
+
+            case 'F': {
+                file = fopen(filename, "r");
+                if (!file) {
+                    printf("Error: File could not be opened successfully")
+                }
                 
-
-
-
 
 
 
