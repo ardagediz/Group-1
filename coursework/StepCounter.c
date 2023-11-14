@@ -179,9 +179,11 @@ int main() {
             case 'F': {
                 file = fopen(filename, "r");
                 if (!file) {
-                    printf("Error: File could not be opened successfully")
+                    printf("Error: File could not be opened successfully");
                 }
-                
+
+                int 
+
 
 
 
