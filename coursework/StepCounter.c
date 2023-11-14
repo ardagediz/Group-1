@@ -31,8 +31,8 @@ int main() {
     } else {
         printf("The file has been opened successfully");
     }
-    
     fclose(file);
+    
     while (1) {
         printf("\nMenu:\n");
         printf("A: Specify the filename to be imported\n");
@@ -181,16 +181,17 @@ int main() {
                 if (!file) {
                     printf("Error: File could not be opened successfully");
                 }
-
-                int 
-
-
-
-
-
                 break;
             }
 
+            case 'Q': {
+                printf("Exiting the program.\n");
+                return 0;
+            }
+
+            default:
+            printf("Invalid choice, please try again.\n");
+            break;
         }
     }
 }
