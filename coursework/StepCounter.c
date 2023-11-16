@@ -20,19 +20,8 @@ void tokeniseRecord(const char *input, const char *delimiter,
 int main() {
     char choice;
     char filename[filename_length];
-    
-    printf("Please enter the name of the data file: ");
-    fgets(filename, filename_length, stdin);
-    filename[strcspn(filename, "\n")] = 0;  // Remove newline character
-    FILE *file = fopen(filename, "r");
-    if (!file) {
-        printf("Error: could not open file\n");
-        return 1;
-    } else {
-        printf("The file has been opened successfully");
-    }
-    fclose(file);
-    
+    char line[filename_length];
+
     while (1) {
         printf("\nMenu:\n");
         printf("A: Specify the filename to be imported\n");
@@ -46,15 +35,14 @@ int main() {
         printf("Enter your choice: ");
         choice = getchar();
 
-        // Clear the input buffer
         while ((getchar()) != '\n');
 
         switch (choice) {
-            case 'A':
+            case 'A': 
                 printf("Please specify the name of the file name to be imported: ");
                 fgets(filename, filename_length, stdin);
                 filename[strcspn(filename, "\n")] = 0;  // Remove newline character
-                file = fopen(filename, "r");
+                FILE *file = fopen(filename, "r");
                 if (!file) {
                     printf("Error: could not open file\n");
                     return 1;
@@ -63,8 +51,9 @@ int main() {
                 }
                 fclose(file);
                 break;
+            
 
-            case 'B':
+            case 'B': 
                 file = fopen(filename, "r");
                 if (!file) {
                     printf("Error: could not open file\n");
@@ -72,7 +61,6 @@ int main() {
                 }
 
                 int recordCount = 0;
-                char line[filename_length];
 
                 while (fgets(line, filename_length, file) != NULL) {
                     recordCount++;
@@ -81,22 +69,25 @@ int main() {
                 fclose(file);
                 printf("The record count is %d\n", recordCount);
                 break;
+            
 
             case 'C': {
+                printf("Entering Case C\n"); // Debug statement
+                FITNESS_DATA record = {0}, minRecord = {0};
+                int minSteps = 1000000; // Initialize to a large number
+                int isFirstRecord = 1; // Flag to check if it's the first record
+                
                 file = fopen(filename, "r");
                 if (!file) {
                     printf("Error: could not open file\n");
                     return 1;
                 }
 
-                char line[filename_length];
-                FITNESS_DATA record, minRecord;
-                int minSteps = 1000000; // Initialize to a large number
-                int isFirstRecord = 1; // Flag to check if it's the first record
 
                 while (fgets(line, filename_length, file) != NULL) {
                     tokeniseRecord(line, ",", record.date, record.time, line);
                     record.steps = atoi(line); // Convert steps to integer
+                }
 
                 if (isFirstRecord || record.steps < minSteps) {
                     minSteps = record.steps;
@@ -104,31 +95,33 @@ int main() {
                     isFirstRecord = 0;
                 }
 
-                fclose(file);
-
                 if (!isFirstRecord) {
-                    printf("Fewest steps: %s %s\n", minRecord.date, minRecord.time);
-                } else {
+                printf("Fewest steps: %s %s\n", minRecord.date, minRecord.time);
+                } else{
                     printf("No records found.\n");
                 }
-                    break;
-                }
+                
+                fclose(file);
+                break;
+            }
 
             case 'D': {
+                printf("Entering Case D\n"); // Debug statement
+                FITNESS_DATA record = {0}, maxRecord = {0};
+                int maxSteps = 1;
+                int isFirstRecord = 1;
+                
                 file = fopen(filename, "r");
                 if (!file) {
                     printf("Error: File could not be opened successfully");
                     return 1;
                 }
 
-                FITNESS_DATA record, maxRecord;
-                int maxSteps = 1;
-                int isFirstRecord = 1;
 
-                char line[filename_length];
                 while (fgets(line, filename_length, file) != NULL) {
                     tokeniseRecord(line, ",", record.date, record.time, line);
                     record.steps = atoi(line); // Convert steps to integer
+                }
 
                 if (isFirstRecord || record.steps > maxSteps) {
                     maxSteps = record.steps;
@@ -136,64 +129,104 @@ int main() {
                     isFirstRecord = 0;
                 }
 
-                fclose(file);
 
-                if (!isFirstRecord) {
-                    printf("Largest Steps: %s %s\n", maxRecord.date, maxRecord.time);
+                if (!isFirstRecord){
+                printf("Largest Steps: %s %s\n", maxRecord.date, maxRecord.time);
                 } else {
                     printf("No records found.\n");
                 }
+                
+                fclose(file);
                 break;
-                }
             }
             
             case 'E': {
+                printf("Entering Case E\n"); // Debug statement
+                FITNESS_DATA record = {0};
+                int totalSteps = 0, recordCount = 0;
+                
                 file = fopen(filename, "r");
                 if (!file) {
                     printf("Error: File could not be opened successfully");
                     return 1;
                 } 
-                 int totalSteps = 0, recordCount = 0;
-                 char filename[filename_length];
-                 FITNESS_DATA record;
-
-                 while (fgets(line, filename_length, file) != NULL) {
+                
+                
+                while (fgets(line, filename_length, file) != NULL) {
                     tokeniseRecord(line, ",", record.date, record.time, line);
                     record.steps = atoi(line); // Convert steps to integer
-
                     totalSteps += record.steps;
                     recordCount++;
                 }
 
-                fclose(file);
-
-                if (recordCount > 0) {
-                    double meanSteps = (double) totalSteps / recordCount;
-                    printf("The mean steps is %.2f\n", meanSteps);
+                if (recordCount > 0){
+                double meanSteps = (double) totalSteps / recordCount;
+                printf("The mean steps is %.2f\n", meanSteps);
                 } else {
-                    printf("No records were found to calculate the mean.");
+                     printf("No records were found to calculate the mean.");
                 }
                 break;
+                fclose(file);
+            
             }
 
             case 'F': {
+                FITNESS_DATA record = {0}, startPeriod = {0}, endPeriod = {0};
+                int maxDuration = 0;
+                int currentDuration = 0;
+                int periodStarted = 0;
+                
                 file = fopen(filename, "r");
                 if (!file) {
                     printf("Error: File could not be opened successfully");
+                    break;
+                }
+
+
+                while (fgets(line, filename_length, file) != NULL) {
+                    tokeniseRecord(line, ",", record.date, record.time, line);
+                    record.steps = atoi(line);       
+
+                    if (record.steps > 500) {
+                        if (!periodStarted) {
+                            startPeriod = record;
+                            periodStarted = 1;
+                        }
+                        currentDuration ++;
+                    } else if(periodStarted) {
+                        if (currentDuration > maxDuration) {
+                        maxDuration = currentDuration;
+                        endPeriod = record;
+                        }
+                        periodStarted = 0;
+                        currentDuration = 0;
+                    }
+                }
+                    if (periodStarted && currentDuration > maxDuration) {
+                        maxDuration = currentDuration;
+                        endPeriod = record;
+                }
+
+                fclose(file);
+
+                if (maxDuration > 0) {
+                printf("Longest period start: %s %s\n", startPeriod.date, startPeriod.time);
+                printf("Longest period end: %s %s\n", endPeriod.date, endPeriod.time);
+                } else {
+                    printf("No continuous period above 500 steps found.\n");
                 }
                 break;
             }
 
-            case 'Q': {
+            case 'Q': 
                 printf("Exiting the program.\n");
                 return 0;
-            }
+            
 
             default:
             printf("Invalid choice, please try again.\n");
             break;
         }
     }
-}
     return 0;
 }
