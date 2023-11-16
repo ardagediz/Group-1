@@ -72,7 +72,6 @@ int main() {
             
 
             case 'C': {
-                printf("Entering Case C\n"); // Debug statement
                 FITNESS_DATA record = {0}, minRecord = {0};
                 int minSteps = 1000000; // Initialize to a large number
                 int isFirstRecord = 1; // Flag to check if it's the first record
@@ -106,7 +105,6 @@ int main() {
             }
 
             case 'D': {
-                printf("Entering Case D\n"); // Debug statement
                 FITNESS_DATA record = {0}, maxRecord = {0};
                 int maxSteps = 1;
                 int isFirstRecord = 1;
@@ -141,7 +139,6 @@ int main() {
             }
             
             case 'E': {
-                printf("Entering Case E\n"); // Debug statement
                 FITNESS_DATA record = {0};
                 int totalSteps = 0, recordCount = 0;
                 
