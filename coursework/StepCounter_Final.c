@@ -1,21 +1,32 @@
-#include "FitnessDataStruct.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "FitnessDataStruct.h"
 
 
-// This is your helper function. Do not change it in any way.
 void tokeniseRecord(const char *input, const char *delimiter,
                     char *date, char *time, char *steps) {
     char *inputCopy = strdup(input);
+    
     char *token = strtok(inputCopy, delimiter);
-    if (token != NULL) strcpy(date, token);
+    if (token != NULL) {        strcpy(date, token);
+    }
+    
     token = strtok(NULL, delimiter);
-    if (token != NULL) strcpy(time, token);
+    if (token != NULL) {
+        strcpy(time, token);
+    }
+    
     token = strtok(NULL, delimiter);
-    if (token != NULL) strcpy(steps, token);
+    if (token != NULL) {
+        strcpy(steps, token);
+    }
+    
+    // Free the duplicated string
     free(inputCopy);
-}
+
+                    }
+
 
 int main() {
     char choice;
@@ -47,7 +58,7 @@ int main() {
                     printf("Error: could not open file\n");
                     return 1;
                 } else {
-                    printf("File '%s' opened successfully.\n", filename);
+                    printf("File '%s' opened successfully.", filename);
                 }
                 fclose(file);
                 break;
@@ -67,7 +78,7 @@ int main() {
                 }           
 
                 fclose(file);
-                printf("The record count is %d\n", recordCount);
+                printf("The record count is %d", recordCount);
                 break;
             
 
@@ -95,9 +106,9 @@ int main() {
                 }
 
                 if (!isFirstRecord) {
-                printf("Fewest steps: %s %s\n", minRecord.date, minRecord.time);
+                printf("Fewest steps: %s %s", minRecord.date, minRecord.time);
                 } else{
-                    printf("No records found.\n");
+                    printf("No records found.");
                 }
                 
                 fclose(file);
@@ -129,16 +140,16 @@ int main() {
 
 
                 if (!isFirstRecord){
-                printf("Largest Steps: %s %s\n", maxRecord.date, maxRecord.time);
+                printf("Largest Steps: %s %s", maxRecord.date, maxRecord.time);
                 } else {
-                    printf("No records found.\n");
+                    printf("No records found.");
                 }
                 
                 fclose(file);
                 break;
             }
             
-            case 'E': {
+            case 'E': {             
                 FITNESS_DATA record = {0};
                 int totalSteps = 0, recordCount = 0;
                 
@@ -158,7 +169,7 @@ int main() {
 
                 if (recordCount > 0){
                 double meanSteps = (double) totalSteps / recordCount;
-                printf("The mean steps is %.2f\n", meanSteps);
+                printf("The mean steps is %.2f", meanSteps);
                 } else {
                      printf("No records were found to calculate the mean.");
                 }
@@ -208,7 +219,7 @@ int main() {
 
                 if (maxDuration > 0) {
                 printf("Longest period start: %s %s\n", startPeriod.date, startPeriod.time);
-                printf("Longest period end: %s %s\n", endPeriod.date, endPeriod.time);
+                printf("Longest period end: %s %s", endPeriod.date, endPeriod.time);
                 } else {
                     printf("No continuous period above 500 steps found.\n");
                 }
