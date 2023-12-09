@@ -8,12 +8,32 @@ typedef struct {
     int steps;
 } FitnessData;
 
-int main() {
-    char filename[100], newFilename[104];
-    FitnessData data[1000];
-    int count = 0;
+// Function to tokenize a record
+void tokeniseRecord(char *record, char delimiter, char *date, char *time, int *steps) {
+    char *ptr = strtok(record, &delimiter);
+    if (ptr != NULL) {
+        strcpy(date, ptr);
+        ptr = strtok(NULL, &delimiter);
+        if (ptr != NULL) {
+            strcpy(time, ptr);
+            ptr = strtok(NULL, &delimiter);
+            if (ptr != NULL) {
+                *steps = atoi(ptr);
+            }
+        }
+    }
+}
 
-    printf("Enter filename: ");
+
+int compareFitnessData(const void *a, const void *b) {
+    FitnessData *dataA = (FitnessData *)a;
+    FitnessData *dataB = (FitnessData *)b;
+    return dataB->steps - dataA->steps; // Sort in descending order
+}
+
+int main() {
+    char filename[100];
+    printf("Enter Filename: ");
     scanf("%99s", filename);
 
     FILE *file = fopen(filename, "r");
@@ -22,43 +42,44 @@ int main() {
         return 1;
     }
 
-    while (fscanf(file, "%10[^,],%5[^,],%d\n", data[count].date, data[count].time, &data[count].steps) == 3) {
+    FitnessData data[1000]; // Adjust size as needed
+    int count = 0;
+    char line[100];
+    
+    while (fgets(line, sizeof(line), file)) {
+        tokeniseRecord(line, ',', data[count].date, data[count].time, &data[count].steps);
+
+        if (strcmp(data[count].date, "") == 0 || strcmp(data[count].time, "") == 0 || data[count].steps <= 0) {
+            printf("Error: invalid data in file\n");
+            fclose(file);
+            return 1;
+        }
+        
+        
         count++;
     }
 
-    if (feof(file) == 0) { // Check if end of file was reached or if there was an error
-        printf("Error: invalid data in file\n");
-        fclose(file);
-        return 1;
-    }
+    qsort(data, count, sizeof(FitnessData), compareFitnessData);
 
-    fclose(file);
+    // Create output filename
+    char outputFilename[104];
+    strcpy(outputFilename, filename);
+    strcat(outputFilename, ".tsv");
 
-    // Simplified sorting using double for loop
-    for (int i = 0; i < count; i++) {
-        for (int j = i + 1; j < count; j++) {
-            if (data[i].steps < data[j].steps) {
-                FitnessData temp = data[i];
-                data[i] = data[j];
-                data[j] = temp;
-            }
-        }
-    }
-
-    strcpy(newFilename, filename);
-    strcat(newFilename, ".tsv");
-    file = fopen(newFilename, "w");
-    if (!file) {
-        printf("Error writing to file\n");
+    FILE *outfile = fopen(outputFilename, "w");
+    if (!outfile) {
+        printf("Error creating output file\n");
         return 1;
     }
 
     for (int i = 0; i < count; i++) {
-        fprintf(file, "%s\t%s\t%d\n", data[i].date, data[i].time, data[i].steps);
+        fprintf(outfile, "%s\t%s\t%d\n", data[i].date, data[i].time, data[i].steps);
     }
-    fclose(file);
 
-    printf("Data sorted and written to %s\n", newFilename);
+    fclose(file);
+    fclose(outfile);
+
+    printf("Data sorted and written to %s\n", outputFilename);
 
     return 0;
 }
