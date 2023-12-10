@@ -93,18 +93,24 @@ class Diabetes:
 
 
 if __name__ == "__main__":
-    # You can comment the following when you are testing your code
-    # You can add more tests as you want
-
     # test diabetes_data.csv
-    d1 = Diabetes("diabetes2_data.csv")
-    print(d1.get_dimension())
+    d1 = Diabetes("diabetes_data.csv")
+    print("Dimensions of diabetes_data.csv:", d1.get_dimension())
     d1.web_summary('stat01.html')
-    # d1.count_instances() # change according to your criteria
+    # Additional print statement for spacing
     print()
 
     # test diabetes2_data.csv
-    d2 = Diabetes("diabetes3_data.csv")
-    print(d2.get_dimension())
+    d2 = Diabetes("diabetes2_data.csv")
+    print("Dimensions of diabetes2_data.csv:", d2.get_dimension())
     d2.web_summary('stat02.html')
-    # d2.count_instances()  # change according to your criteria
+    # Additional print statement for spacing
+    print()
+
+    # test diabetes3_data.csv
+    d3 = Diabetes("diabetes3_data.csv")
+    print("Dimensions of diabetes3_data.csv:", d3.get_dimension())
+    d3.web_summary('stat03.html')
+    # Additional print statement for spacing
+    print()
+
