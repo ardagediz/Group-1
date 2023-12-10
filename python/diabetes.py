@@ -11,16 +11,19 @@ import csv
 
 
 class Diabetes:
+    # Class for managing and analyzing a diabetes dataset
     def __init__(self, filepath) -> None:
+        # Initialize the Diabetes class with data from a CSV file
         try:
             with open(filepath, 'r') as file:
                 reader = csv.reader(file)
-                self.header = next(reader)  # Read and store the header
-                self.data = list(reader)  # Read and store the remaining data
+                self.header = next(reader)  # Store the header (first row csv)
+                self.data = list(reader)  # Store the data (all other rows)
         except FileNotFoundError:
             raise FileNotFoundError(f"File not found: {filepath}")
 
     def get_dimension(self) -> list:
+        # Return the dimensions of the data (rows, columns).
         row_count = len(self.data)  # Number of rows in the data
         column_count = len(self.data[0]) if self.data else 0
         return [row_count, column_count]
@@ -45,6 +48,7 @@ class Diabetes:
             '<th>Classification</th><th>Yes</th><th>No</th></tr>'
         )
 
+        # Add data rows to HTML content.
         for attribute, classifications in summary.items():
             for classification, counts in classifications.items():
                 html_content += (
