@@ -107,10 +107,3 @@ if __name__ == "__main__":
     # Additional print statement for spacing
     print()
 
-    # test diabetes3_data.csv
-    d3 = Diabetes("diabetes3_data.csv")
-    print("Dimensions of diabetes3_data.csv:", d3.get_dimension())
-    d3.web_summary('stat03.html')
-    # Additional print statement for spacing
-    print()
-
