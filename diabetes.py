@@ -108,3 +108,11 @@ if __name__ == "__main__":
     print(d2.get_dimension())
     d2.web_summary('stat02.html')
     # d2.count_instances()  # change according to your criteria
+    print()
+
+    # test diabetes3_data.csv
+    d3 = Diabetes("diabetes3_data.csv")
+    print(d3.get_dimension())
+    d3.web_summary('stat03.html')
+    # Additional print statement for spacing
+    print()
